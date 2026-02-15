@@ -1,0 +1,29 @@
+services:
+  # Backend Service
+  - type: web
+    name: realestate-backend
+    env: node
+    plan: free
+    buildCommand: cd server && npm install
+    startCommand: cd server && npm start
+    envVars:
+      - key: MONGO_URI
+        sync: false # User will need to enter this in Render dashboard
+      - key: JWT_SECRET
+        sync: false # User will need to enter this in Render dashboard
+      - key: NODE_ENV
+        value: production
+
+  # Frontend Static Site
+  - type: static
+    name: realestate-frontend
+    env: static
+    plan: free
+    buildCommand: cd client && npm install && npm run build
+    staticPublishPath: client/dist
+    envVars:
+      - key: VITE_API_URL
+        fromService:
+          type: web
+          name: realestate-backend
+          property: url
