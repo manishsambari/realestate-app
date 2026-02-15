@@ -1,3 +1,4 @@
+import { useState } from 'react';
 
 const SectionTitle = ({ title, subtitle }) => (
     <div className="text-center mb-16">
